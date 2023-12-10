@@ -3,12 +3,15 @@ import { View, Text, FlatList, StyleSheet } from 'react-native';
 import { getProducts } from '../services/Products';
 import Product from '../components/Product';
 import { ProductType } from '../types/ProductType';
+import { YellowBox } from 'react-native';
+
+YellowBox.ignoreWarnings(['Sending `onAnimatedValueUpdate` with no listeners registered.']);
 
 interface ProductListProps {
   navigation: any; 
 }
-
 const ProductList: React.FC<ProductListProps> = ({ navigation }) => {
+
   const [products, setProducts] = useState<ProductType[]>([]);
 
   useEffect(() => {

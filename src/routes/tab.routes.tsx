@@ -7,16 +7,18 @@ import ProductList from '../screens/ProductList'
 import ProductDetails from '../screens/ProductDetails'
 import StackRoutes from './stack.routes'
 import { createStackNavigator } from '@react-navigation/stack'
+import { Animated } from "react-native";
+
 
 const Tab = createBottomTabNavigator()
 const Stack = createStackNavigator();
 
 const TabRoutes =() =>{
+    
     return(
         <Tab.Navigator screenOptions={{headerShown: false, tabBarShowLabel: false, tabBarLabelStyle: {marginTop: -16, color: 'purple'}}} >
             <Tab.Screen name='ProductTab' component={ProductStackNavigator}
             options={{
-                
                 tabBarIcon: ({color, size, focused}) => <Feather name="shopping-bag" color={focused ? 'purple' : '#372D8AA8'}size={size}/>
             }}
             ></Tab.Screen>
