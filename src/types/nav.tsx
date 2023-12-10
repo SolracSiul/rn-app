@@ -6,6 +6,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 export type RootStackParamList = {
   Public: undefined;
   CreateAcc: undefined;
+  ProductDetails: undefined;
 };
 
 export type RootStackScreenProps<T extends keyof RootStackParamList> =

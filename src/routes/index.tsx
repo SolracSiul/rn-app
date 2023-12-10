@@ -6,7 +6,7 @@ import StackRoutes from "./stack.routes";
 export default function Routes(){
     let auth = true;
     return(
-        <NavigationContainer>
+        <NavigationContainer >
             {auth ? <DrawerRoutes /> : <StackRoutes />}
         </NavigationContainer>
     )

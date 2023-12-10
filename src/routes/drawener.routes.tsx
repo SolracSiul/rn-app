@@ -4,19 +4,28 @@ import TabRoutes from './tab.routes'
 import StackRoutes from './stack.routes'
 import { Button } from 'react-native'
 import Contact from '../screens/Contact'
+import {TouchableOpacity, StyleSheet} from "react-native"
 
 const Drawer = createDrawerNavigator()
 
+
 export default function DrawerRoutes(){
+    function SignOutButton({ onPress }: any) {
+        return (
+          <TouchableOpacity onPress={onPress} style={styles.customBtn}>
+            <Feather name="log-out" size={20} color="purple" />
+          </TouchableOpacity>
+        );
+      }
     const teste = () =>{
-        console.log('oie')
+        console.log('say hello')
     }
     let auth = true;
     return(
-        <Drawer.Navigator screenOptions={{title: '',  headerRight: () => (
-            <Button onPress={() => {teste()}} title="Sign out"></Button>
-          )}} >
-            <Drawer.Screen name='home' component={TabRoutes}
+        <Drawer.Navigator screenOptions={{ headerStyle:{backgroundColor: '#f4f4f4'}, drawerActiveTintColor: 'purple',headerTintColor: 'purple',title: '',  headerRight: () => (
+            <SignOutButton onPress={() => teste()} />
+            ), }} >
+            <Drawer.Screen name='home' component={TabRoutes} 
             options={{
                 drawerLabel: 'list',
                 drawerIcon: ({color, size}) => <Feather name='home' color={color} size={size}/>
@@ -31,3 +40,9 @@ export default function DrawerRoutes(){
         </Drawer.Navigator>
     )
 }
+
+const styles = StyleSheet.create({
+  customBtn:{
+    paddingRight: 10
+  }, 
+})
