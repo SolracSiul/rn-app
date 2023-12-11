@@ -1,12 +1,20 @@
 import React from 'react';
 import { Text, Image, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { ProductType } from '../types/ProductType';
+import { CartContext } from '../context/CartContext';
+import { useContext } from 'react';
 
 interface ProductProps extends ProductType {
   onPress: () => void;
 }
 
-const Product: React.FC<ProductProps> = ({ name, price, image, onPress }) => {
+const Product: React.FC<ProductProps> = ({ name, price, image, onPress, id }) => {
+
+  const {addItemToCart}:any = useContext(CartContext);
+  
+  const addToCart =(id: number) =>{
+    addItemToCart(id)
+  }
   return (
     <View style={styles.card}>
       <TouchableOpacity style={styles.imageContainer} onPress={onPress}>
@@ -16,7 +24,7 @@ const Product: React.FC<ProductProps> = ({ name, price, image, onPress }) => {
         <Text style={styles.name}>{name}</Text>
         <Text style={styles.price}>${price}</Text>
       </View>
-      <TouchableOpacity style={styles.addToCartButton} onPress={()=>{console.log('add to cart')}}>
+      <TouchableOpacity style={styles.addToCartButton} onPress={()=> addToCart(id)}>
         <Text style={styles.addToCartButtonText}>Add to Cart</Text>
       </TouchableOpacity>
     </View>

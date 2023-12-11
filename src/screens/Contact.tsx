@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 export default function Contact() {
   return (
     <View style={styles.container}>
-      <Text>Pagina de contato</Text>
+      <Text>Meu perfil RONALDO</Text>
     </View>
   );
 }

@@ -1,13 +1,13 @@
 import { NavigationContainer} from "@react-navigation/native"
-// import TabRoutes from "./tab.routes"
 import DrawerRoutes from "./drawener.routes"
-import StackRoutes from "./stack.routes";
+import StackNoRoutes from "./stackno.routes";
+import { useAuth } from "../context/AuthContext";
 
 export default function Routes(){
-    let auth = true;
+    const {authState} = useAuth();
     return(
         <NavigationContainer >
-            {auth ? <DrawerRoutes /> : <StackRoutes />}
+            {authState?.authenticated ? <DrawerRoutes /> : <StackNoRoutes />}
         </NavigationContainer>
     )
 }

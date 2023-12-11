@@ -10,7 +10,7 @@ interface AuthProps{
 }
 
 const TOKEN_KEY = 'my-jwt'
-export const API_URL = 'http://192.168.15.6:3000'
+export const API_URL = 'http://192.168.15.6:3007'
 const AuthContext = createContext<AuthProps>({})
 
 export const useAuth = () =>{
@@ -25,7 +25,6 @@ export const AuthProvider = ({children}: any) =>{
     useEffect(() =>{
         const loadToken = async ()=>{
             const token = await SecureStore.getItemAsync(TOKEN_KEY)
-            console.log('verifica atual token:', token)
             if(token){
                 if(token){
                     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
@@ -49,10 +48,7 @@ export const AuthProvider = ({children}: any) =>{
     const login = async(email:string, password: string) =>{
         try {
             const result = await axios.post(`${API_URL}/login`, { email, password });
-            const customResult = JSON.stringify(result.data.token)
-            console.log('custom token', customResult)
-            console.log('Usuário autenticado:', result);
-        
+                    
             if (result && result.data && result.data.token) {
               setAuthState({
                 token: result.data.token,
@@ -60,7 +56,6 @@ export const AuthProvider = ({children}: any) =>{
               });
         
               axios.defaults.headers.common['Authorization'] = `Bearer ${result.data.token}`;
-              console.log('Chamou aqui?');
         
               await SecureStore.setItemAsync(TOKEN_KEY, result.data.token);
         
@@ -75,7 +70,6 @@ export const AuthProvider = ({children}: any) =>{
           }
     }
     const logout = async () =>{
-        console.log('logout')
         await SecureStore.deleteItemAsync(TOKEN_KEY);
         axios.defaults.headers.common['Authorization'] = ''
         setAuthState({

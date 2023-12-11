@@ -1,20 +1,19 @@
 import React, {useContext, useEffect, useState} from 'react'
 import {View, StyleSheet, Image, ScrollView, SafeAreaView, Button , Text} from 'react-native'
 import { getProduct } from '../services/Products'
-// import { CartContext } from '../Context/CartContext';
+import { CartContext } from '../context/CartContext';
 
 function ProductDetails({route}: any) {
     
     const {productId} = route.params;
     const [product, setProduct] = useState({} as any)
-    // const {addItemToCart} = useContext(CartContext);
+    const {addItemToCart}:any = useContext(CartContext);
     
     useEffect(() =>{
         setProduct(getProduct(productId))
     })
     function onAddTocart(id: number){
-        console.log('adicionando produto', id)
-        // addItemToCart(product.id)
+        addItemToCart(product.id)
     }
 
   return (

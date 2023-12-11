@@ -2,13 +2,12 @@ import { createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 import {Feather} from "@expo/vector-icons"
 import Feed from '../screens/ProductList'
 import Contact from '../screens/Contact'
-import About from '../screens/About'
 import ProductList from '../screens/ProductList'
 import ProductDetails from '../screens/ProductDetails'
 import StackRoutes from './stack.routes'
 import { createStackNavigator } from '@react-navigation/stack'
 import { Animated } from "react-native";
-
+import Cart from '../screens/Cart'
 
 const Tab = createBottomTabNavigator()
 const Stack = createStackNavigator();
@@ -23,7 +22,7 @@ const TabRoutes =() =>{
             }}
             ></Tab.Screen>
              
-            <Tab.Screen name='About' component={About}
+            <Tab.Screen name='Cart' component={Cart}
              options={{
                 tabBarIcon: ({color, size, focused}) => <Feather name="shopping-cart" color={focused ? 'purple' : '#372D8AA8'} size={size}/>
             }}></Tab.Screen>
