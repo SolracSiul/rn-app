@@ -1,9 +1,11 @@
 import { StyleSheet, Text, View } from 'react-native';
+import { useAuth } from '../context/AuthContext';
 
-export default function Contact() {
+export default function Perfil() {
+  const {authState} = useAuth();
   return (
     <View style={styles.container}>
-      <Text>Meu perfil RONALDO</Text>
+      <Text>Meu perfil {authState?.user?.name}</Text>
     </View>
   );
 }

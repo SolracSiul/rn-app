@@ -1,7 +1,7 @@
 import { createDrawerNavigator} from '@react-navigation/drawer'
 import {Feather} from "@expo/vector-icons"
 import TabRoutes from './tab.routes'
-import Contact from '../screens/Contact'
+import Contact from '../screens/Perfil'
 import {TouchableOpacity, StyleSheet} from "react-native"
 import { useAuth } from '../context/AuthContext'
 
@@ -25,7 +25,6 @@ export default function DrawerRoutes(){
         );
       }
     
-    let auth = true;
     return(
         <Drawer.Navigator screenOptions={{ headerStyle:{backgroundColor: '#f4f4f4'}, drawerActiveTintColor: 'purple',headerTintColor: 'purple',title: '',  headerRight: () => (
             <SignOutButton onPress={handleLogoutPress} />

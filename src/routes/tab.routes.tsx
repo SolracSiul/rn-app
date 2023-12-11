@@ -1,7 +1,7 @@
 import { createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 import {Feather} from "@expo/vector-icons"
 import Feed from '../screens/ProductList'
-import Contact from '../screens/Contact'
+import Contact from '../screens/Perfil'
 import ProductList from '../screens/ProductList'
 import ProductDetails from '../screens/ProductDetails'
 import StackRoutes from './stack.routes'
