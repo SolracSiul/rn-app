@@ -8,6 +8,8 @@ import StackRoutes from './stack.routes'
 import { createStackNavigator } from '@react-navigation/stack'
 import { Animated } from "react-native";
 import Cart from '../screens/Cart'
+import Chat from '../screens/Chat/Chat'
+import Fav from '../screens/Fav'
 
 const Tab = createBottomTabNavigator()
 const Stack = createStackNavigator();
@@ -26,12 +28,11 @@ const TabRoutes =() =>{
              options={{
                 tabBarIcon: ({color, size, focused}) => <Feather name="shopping-cart" color={focused ? 'purple' : '#372D8AA8'} size={size}/>
             }}></Tab.Screen>
-            <Tab.Screen name='Contact' component={Contact}
+            <Tab.Screen name='Fav' component={Fav}
              options={{
-                
-                tabBarIcon: ({color, size, focused}) => <Feather name="user" color={focused ? 'purple' : '#372D8AA8'}size={size}/>
+                tabBarIcon: ({color, size, focused}) => <Feather name="heart" color={focused ? 'purple' : '#372D8AA8'}size={size}/>
             }}></Tab.Screen>
-              <Tab.Screen name='Contact2' component={Contact}
+              <Tab.Screen name='Chat' component={Chat}
              options={{
                 
                 tabBarIcon: ({color, size, focused}) => <Feather name="message-square" color={focused ? 'purple' : '#372D8AA8'} size={size}/>

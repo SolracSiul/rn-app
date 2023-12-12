@@ -4,13 +4,16 @@ import { LogBox } from 'react-native';
 import Routes from './src/routes';
 import { AuthProvider } from './src/context/AuthContext';
 import { CartProvider } from './src/context/CartContext';
+import { FavProvider } from './src/context/FavContext';
 LogBox.ignoreAllLogs();
 
 export default function App() {
   return (
     <AuthProvider>
       <CartProvider>
-        <Routes/>
+        <FavProvider>
+            <Routes/>
+        </FavProvider>
       </CartProvider>
     </AuthProvider>
   );

@@ -1,12 +1,12 @@
 import { View, Image, Text , Button , FlatList, StyleSheet } from "react-native";
-import { CartContext } from '../context/CartContext';
+import { FavContext } from "../context/FavContext";
 import  React, { useEffect, useState, useContext } from 'react';
 
 
 
-function Cart({navigation}: any) {
+function Fav({navigation}: any) {
 
-  const {items, getTotalPrice}: any = useContext(CartContext)
+  const {items, getTotalPrice}: any = useContext(FavContext)
 
   function totals(){
       let [total, setTotal] = useState(0);
@@ -43,7 +43,7 @@ return (
 )
 }
 
-export default Cart
+export default Fav
 
 const styles = StyleSheet.create({
   cartLine: {

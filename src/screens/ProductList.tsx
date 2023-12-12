@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, StyleSheet } from 'react-native';
-import { getProducts } from '../services/Products';
 import Product from '../components/Product';
 import { ProductType } from '../types/ProductType';
 import { YellowBox } from 'react-native';
-
+import { getProducts } from '../services/Products';
 YellowBox.ignoreWarnings(['Sending `onAnimatedValueUpdate` with no listeners registered.']);
 
 interface ProductListProps {
@@ -17,7 +16,7 @@ const ProductList: React.FC<ProductListProps> = ({ navigation }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const productsData = getProducts();
+        const productsData = await getProducts();
         setProducts(productsData);
       } catch (error) {
         console.error('Erro ao buscar produtos:', error);

@@ -3,6 +3,7 @@ import { Text, Image, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { ProductType } from '../types/ProductType';
 import { CartContext } from '../context/CartContext';
 import { useContext } from 'react';
+import { FavContext } from '../context/FavContext';
 
 interface ProductProps extends ProductType {
   onPress: () => void;
@@ -11,9 +12,13 @@ interface ProductProps extends ProductType {
 const Product: React.FC<ProductProps> = ({ name, price, image, onPress, id }) => {
 
   const {addItemToCart}:any = useContext(CartContext);
+  const {addItemToFavs}:any = useContext(FavContext);
   
   const addToCart =(id: number) =>{
     addItemToCart(id)
+  }
+  const addToFav = (id: number) =>{
+    addItemToFavs(id)
   }
   return (
     <View style={styles.card}>
@@ -26,6 +31,9 @@ const Product: React.FC<ProductProps> = ({ name, price, image, onPress, id }) =>
       </View>
       <TouchableOpacity style={styles.addToCartButton} onPress={()=> addToCart(id)}>
         <Text style={styles.addToCartButtonText}>Add to Cart</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.addToFavButton} onPress={()=> addToFav(id)}>
+        <Text style={styles.addToCartFavText}>Add to FAV</Text>
       </TouchableOpacity>
     </View>
   );
@@ -74,6 +82,16 @@ const styles = StyleSheet.create({
       alignItems: 'center',
     },
     addToCartButtonText: {
+      color: '#FFFFFF',
+      fontSize: 16,
+      fontWeight: 'bold',
+    },
+    addToFavButton:{
+      backgroundColor: '#32CD32',
+      padding: 12,
+      alignItems: 'center',
+    },
+    addToCartFavText: {
       color: '#FFFFFF',
       fontSize: 16,
       fontWeight: 'bold',
