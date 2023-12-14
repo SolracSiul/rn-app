@@ -3,7 +3,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
 
 interface User{
-    id: number;
+    _id: string;
     name: string;
     email: string;
     profissao?: string;
@@ -16,6 +16,7 @@ interface AuthProps{
     onRegister?: (name: string, email: string, password: string, profissao: string, image?: string) => Promise<any>;
     onLogin?: (email: string, password: string ) => Promise<any>;
     onLogout?: () => Promise<any>;
+    onProfile?: () => any | undefined;
 }
 
 const TOKEN_KEY = 'my-jwt'
@@ -42,7 +43,13 @@ export const AuthProvider = ({children}: any) =>{
                     const userLogged = userResponse.data;
                     console.log('usuario logado: ', userLogged)
                     setAuthState({
-                        user: userLogged,
+                        user: {
+                            _id: userLogged._id,
+                            name: userLogged.name,
+                            email: userLogged.email,
+                            profissao: userLogged.profissao,
+                            image: userLogged.image,
+                          },
                         token: token,
                         authenticated: true
                     })
@@ -59,7 +66,13 @@ export const AuthProvider = ({children}: any) =>{
             const userLogged = userResponse.data;
             console.log('usuario logado: ', userLogged)
             setAuthState({
-                user: userLogged,
+                user: {
+                    _id: userLogged._id,
+                    name: userLogged.name,
+                    email: userLogged.email,
+                    profissao: userLogged.profissao,
+                    image: userLogged.image,
+                },
                 token: token,
                 authenticated: true
             })
@@ -111,6 +124,7 @@ export const AuthProvider = ({children}: any) =>{
         onRegister: register,
         onLogin: login,
         onLogout: logout,
+        onProfile: onProfile,
         authState
     };
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
