@@ -1,97 +1,193 @@
-import { View, Image, Text , Button , FlatList, StyleSheet } from "react-native";
-import { FavContext } from "../context/FavContext";
-import  React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+import { View, Image, Text, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
+import { CartContext } from '../context/CartContext';
+import { Feather } from '@expo/vector-icons';
+import { FavContext } from '../context/FavContext';
 
-
-
-function Fav({navigation}: any) {
-
-  const {items, getTotalPrice}: any = useContext(FavContext)
-
-  function totals(){
-      let [total, setTotal] = useState(0);
-      useEffect(() =>{
-          setTotal(getTotalPrice())
-      })
-      return(
-          <View style={styles.cartLineTotal}>
-              <Text style={[styles.lineLeft, styles.lineTotal]}>Total</Text>
-              <Text style={styles.mainTotal}>$ {total}</Text>
-          </View>
-      )
+function Fav({ navigation }: any) {
+  
+  const { items, getTotalPrice, removeItemToFav, checkoutFav }: any = useContext(FavContext);
+  const quantidade = items.length;
+  function SignOutButton({ onPress }: any) {
+    return (
+      <TouchableOpacity onPress={onPress} style={styles.btnRemove}>
+        <Feather name="x-circle" size={20} color="purple" />
+      </TouchableOpacity>
+    );
   }
-  function renderItem({item}: any){
-      return(
-          <>
-              <View style={styles.cartLine}>
-                  <Image style={styles.image} source={{uri: item.product.image}} />
-                  <Text style={styles.lineLeft}>{item.product.name} x {item.qtd} <Text style={styles.productTotal}>${item.totalPrice}</Text></Text>
-              </View>
-          </>
-      )
+  function handleCheckout(){
+    checkoutFav()
   }
 
-return (
-  <FlatList
-          style={styles.itemsList}
-          contentContainerStyle={styles.itemsListContainer}
-          data={items}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.product.id.toString()}
-          ListFooterComponent={totals}
-      />
-)
+  function Totals() {
+    let [total, setTotal] = useState(0);
+    useEffect(() => {
+      setTotal(getTotalPrice());
+    }, [items]);
+
+    return (
+      <View style={styles.cartLineTotal}>
+        <View style={styles.line}>
+          <Text style={[styles.lineLeft, styles.lineTotal]}>Total</Text>
+          <Text style={styles.mainTotal}>$ {total}</Text>
+        </View>
+        <TouchableOpacity style={styles.checkoutButton} onPress={() => handleCheckout()}>
+          <Text style={styles.checkoutButtonText}>Finalizar Compra</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
+  function renderItem({ item }: any) {
+    return (
+      <View style={styles.cartLine}>
+        <Image style={styles.image} source={{ uri: item.product.image }} />
+        <View style={styles.itemDetails}>
+          <Text style={styles.productName}>{item.product.name}</Text>
+          <Text style={styles.quantity}>Quantidade: {item.qtd}</Text>
+          <Text style={styles.productTotal}>Total: ${item.totalPrice}</Text>
+        </View>
+        <SignOutButton onPress={() => removeItemToFav(item.product._id)} />
+      </View>
+    );
+  }
+  function Empty(){
+    return(
+      <View style={styles.vazio}>
+        <View style={styles.vazioContent}>
+          <Feather name="frown" size={62} color="purple" />
+          <Text style={styles.vazioText}>Nenhum item favoritado :( </Text>
+        </View>
+      </View>
+    )
+  }
+
+  return (
+    <>  
+    {quantidade > 0 ? <FlatList
+      style={styles.itemsList}
+      contentContainerStyle={styles.itemsListContainer}
+      data={items}
+      renderItem={renderItem}
+      keyExtractor={(item, index) => item.product._id}
+      ListFooterComponent={Totals}
+      /> :
+       <Empty />}
+    
+      </>
+  );
 }
 
-export default Fav
+export default Fav;
 
 const styles = StyleSheet.create({
   cartLine: {
     flexDirection: 'row',
-    width: '80%',
-    paddingVertical: 10
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '100%',
+    paddingVertical: 10,
+    backgroundColor: '#ffffff',
+    borderBottomColor: '#dddddd',
+    borderBottomWidth: 1,
+  },
+  vazioContent:{
+    alignItems: 'center'
+  },
+  vazioText:{
+    color: 'purple',
+    paddingLeft: 15,
+    paddingTop: 10
+  },
+  vazio:{
+    flex:1,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 'auto'
+  },
+  line:{
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 8
+  },
+  btnRemove: {
+    width: 40,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 20,
   },
   image: {
-    width: '25%',
-    aspectRatio: 1,
-    marginRight: 5
+    width: 80,
+    height: 80,
+    marginRight: 10,
+    borderRadius: 5,
   },
-  cartLineTotal: {
-    flexDirection: 'row',
-    borderTopColor: '#dddddd',
-    borderTopWidth: 1
+  itemDetails: {
+    flex: 1,
+    marginRight: 10,
+  },
+  productName: {
+    fontSize: 16,
+    color: '#333333',
+    marginBottom: 5,
+  },
+  quantity: {
+    fontSize: 14,
+    color: '#666666',
+    marginBottom: 5,
   },
   productTotal: {
-    fontWeight: 'bold'
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#333333',
+  },
+  cartLineTotal: {
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    borderTopColor: '#dddddd',
+    borderTopWidth: 1,
+    marginTop: 10,
+    paddingTop: 10,
   },
   lineTotal: {
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    fontSize: 18,
+    color: '#333333',
   },
   lineLeft: {
-    fontSize: 20,
+    fontSize: 16,
     lineHeight: 40,
-    color: '#333333'
-  },
-  lineRight: {
-    fontSize: 20,
-    fontWeight: 'bold',
     color: '#333333',
-    textAlign: 'left',
   },
   mainTotal: {
-    flex: 1,
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 'bold',
     lineHeight: 40,
     color: '#333333',
-    textAlign: 'right'
   },
   itemsList: {
-    backgroundColor: '#eeeeee'
+    backgroundColor: '#f4f4f4',
   },
   itemsListContainer: {
-    backgroundColor: '#eeeeee',
-    paddingVertical: 8,
-    marginHorizontal: 8
-  }
-})
+    backgroundColor: '#f4f4f4',
+    paddingHorizontal: 8,
+  },
+  checkoutButton: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'purple',
+    paddingVertical: 15,
+    paddingHorizontal: 30,
+    borderRadius: 8,
+  },
+  checkoutButtonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+});

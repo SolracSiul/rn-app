@@ -6,13 +6,14 @@ interface User{
     id: number;
     name: string;
     email: string;
-    image: string;
+    profissao?: string;
+    image?: string;
 }
 
 interface AuthProps{
     loggedState?:{user: User};
     authState?: {token: string | null; authenticated: boolean | null, user: User | null};
-    onRegister?: (name: string, email: string, password: string) => Promise<any>;
+    onRegister?: (name: string, email: string, password: string, profissao: string, image?: string) => Promise<any>;
     onLogin?: (email: string, password: string ) => Promise<any>;
     onLogout?: () => Promise<any>;
 }
@@ -64,9 +65,9 @@ export const AuthProvider = ({children}: any) =>{
             })
         }
     }
-    const register = async(name: string, email:string, password: string) =>{
+    const register = async(name: string, email:string, password: string, profissao: string,) =>{
         try{
-            return await axios.post(`${API_URL}/user`, {name, email, password})
+            return await axios.post(`${API_URL}/user`, {name, email, password, profissao})
         }catch(e){
             return{error: true, msg: (e as any).response.data.msg}
         }

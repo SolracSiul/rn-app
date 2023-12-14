@@ -4,7 +4,8 @@ import { CartContext } from '../context/CartContext';
 import { Feather } from '@expo/vector-icons';
 
 function Cart({ navigation }: any) {
-  const { items, getTotalPrice, removeItemToCart }: any = useContext(CartContext);
+  
+  const { items, getTotalPrice, removeItemToCart, checkout }: any = useContext(CartContext);
   const quantidade = items.length;
   function SignOutButton({ onPress }: any) {
     return (
@@ -14,7 +15,7 @@ function Cart({ navigation }: any) {
     );
   }
   function handleCheckout(){
-    console.log('compra finalizada')
+    checkout()
   }
 
   function Totals() {

@@ -3,7 +3,7 @@ import { getProduct } from '../services/Products';
 import { ProductType } from '../types/ProductType';
 
 type FavItem = {
-    id: number;
+    id: string;
     qtd: number;
     product: ProductType;
     totalPrice: number;
@@ -12,8 +12,10 @@ type FavItem = {
 type FavContextType = {
     items: FavItem[];
     getItemsCount: () => number;
-    addItemToFavs: (id: number) => void;
+    addItemToFavs: (id: string) => void;
+    removeItemToFav: (id: string) => void;
     getTotalPrice: () => void;
+    checkoutFav: () => void;
 };
 
 export const FavContext = createContext<FavContextType | undefined>({} as FavContextType);
@@ -25,9 +27,10 @@ interface FavProviderProps {
 export function FavProvider(props: FavProviderProps) {
     const [items, setItems] = useState<FavItem[]>([]);
   
-    function addItemToFavs(id: number) {
-      const product = getProduct(id);
-      if(product){
+    async function addItemToFavs(id: string){
+      try {
+        const product = await getProduct(id);
+        if (product) {
           setItems((prevItems) => {
             const item = prevItems.find((item) => item.id === id);
             if (!item) {
@@ -50,7 +53,44 @@ export function FavProvider(props: FavProviderProps) {
               });
             }
           });
+    
+          console.log('Adicionado ao carrinho');
+        } else {
+          console.error('Produto não encontrado');
+        }
+      } catch (error) {
+        console.error('Erro ao obter produto:', error);
       }
+    }
+      async function removeItemToFav(id: string) {
+        try {
+          const product = await getProduct(id);
+      
+          if (product) {
+            setItems((prevItems) => {
+              const itemIndex = prevItems.findIndex((item) => item.id === id);
+              if (itemIndex !== -1) {
+                const updatedItems = [...prevItems];
+                const removedItem = updatedItems.splice(itemIndex, 1)[0];
+                
+                console.log('Removido do carrinho:', removedItem);
+      
+                return updatedItems;
+              } else {
+                console.warn('Item não encontrado no carrinho');
+                return prevItems;
+              }
+            });
+          } else {
+            console.error('Produto não encontrado');
+          }
+        } catch (error) {
+          console.error('Erro ao obter produto:', error);
+        }
+      }
+    
+    function checkoutFav(){
+      setItems([])
     }
   
     function getItemsCount() {
@@ -62,7 +102,7 @@ export function FavProvider(props: FavProviderProps) {
     }
   
     return (
-      <FavContext.Provider value={{ items, getItemsCount, addItemToFavs, getTotalPrice }}>
+      <FavContext.Provider value={{ items, checkoutFav, removeItemToFav ,getItemsCount, addItemToFavs, getTotalPrice }}>
         {props.children}
       </FavContext.Provider>
     );

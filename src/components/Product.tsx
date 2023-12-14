@@ -19,6 +19,7 @@ const Product: React.FC<ProductProps> = ({ name, price, image, onPress, _id }) =
     addItemToCart(_id)
   }
   const addToFav = (_id: string) =>{
+    console.log('estou adicionando esse id:', _id)
     addItemToFavs(_id)
   }
   return (

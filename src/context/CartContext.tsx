@@ -15,6 +15,7 @@ type CartContextType = {
     addItemToCart: (id: string) => void;
     removeItemToCart: (id: string) => void;
     getTotalPrice: () => number;
+    checkout: () => void;
 };
 
 export const CartContext = createContext<CartContextType | undefined>({} as CartContextType);
@@ -87,7 +88,10 @@ export function CartProvider(props: CartProviderProps) {
         console.error('Erro ao obter produto:', error);
       }
     }
-  
+    function checkout(){
+      setItems([])
+      
+    }
     function getItemsCount() {
       return items.reduce((sum, item) => sum + item.qtd, 0);
     }
@@ -97,7 +101,7 @@ export function CartProvider(props: CartProviderProps) {
     }
   
     return (
-      <CartContext.Provider value={{ items, getItemsCount, addItemToCart, getTotalPrice, removeItemToCart }}>
+      <CartContext.Provider value={{ items, getItemsCount, addItemToCart, getTotalPrice, removeItemToCart, checkout }}>
         {props.children}
       </CartContext.Provider>
     );
