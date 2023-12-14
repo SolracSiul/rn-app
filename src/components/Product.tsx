@@ -9,16 +9,17 @@ interface ProductProps extends ProductType {
   onPress: () => void;
 }
 
-const Product: React.FC<ProductProps> = ({ name, price, image, onPress, id }) => {
+const Product: React.FC<ProductProps> = ({ name, price, image, onPress, _id }) => {
 
   const {addItemToCart}:any = useContext(CartContext);
   const {addItemToFavs}:any = useContext(FavContext);
   
-  const addToCart =(id: number) =>{
-    addItemToCart(id)
+  const addToCart =(_id: string) =>{
+    console.log('estou adicionando esse id:', _id)
+    addItemToCart(_id)
   }
-  const addToFav = (id: number) =>{
-    addItemToFavs(id)
+  const addToFav = (_id: string) =>{
+    addItemToFavs(_id)
   }
   return (
     <View style={styles.card}>
@@ -29,10 +30,10 @@ const Product: React.FC<ProductProps> = ({ name, price, image, onPress, id }) =>
         <Text style={styles.name}>{name}</Text>
         <Text style={styles.price}>${price}</Text>
       </View>
-      <TouchableOpacity style={styles.addToCartButton} onPress={()=> addToCart(id)}>
+      <TouchableOpacity style={styles.addToCartButton} onPress={()=> addToCart(_id)}>
         <Text style={styles.addToCartButtonText}>Add to Cart</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.addToFavButton} onPress={()=> addToFav(id)}>
+      <TouchableOpacity style={styles.addToFavButton} onPress={()=> addToFav(_id)}>
         <Text style={styles.addToCartFavText}>Add to FAV</Text>
       </TouchableOpacity>
     </View>

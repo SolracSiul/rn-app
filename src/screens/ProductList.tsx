@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
+import { View, Text, FlatList, StyleSheet, LogBox } from 'react-native';
 import Product from '../components/Product';
 import { ProductType } from '../types/ProductType';
-import { YellowBox } from 'react-native';
 import { getProducts } from '../services/Products';
-YellowBox.ignoreWarnings(['Sending `onAnimatedValueUpdate` with no listeners registered.']);
+import api from '../services/api';
 
 interface ProductListProps {
   navigation: any; 
@@ -16,31 +15,34 @@ const ProductList: React.FC<ProductListProps> = ({ navigation }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const productsData = await getProducts();
-        setProducts(productsData);
-      } catch (error) {
-        console.error('Erro ao buscar produtos:', error);
+        const response = await api.get('/products')
+        console.log('oie')
+        setProducts(response.data);
+      } catch (error: any) {
+        console.error('Erro ao buscar produtos:', error.stack);
       }
     };
 
     fetchData();
   }, []);
 
-  const handleProductPress = (productId: number) => {
+  const handleProductPress = (productId: string) => {
     navigation.navigate('ProductDetails', { productId });
   };
 
   const renderProduct = ({ item }: { item: ProductType }) => (
-    <Product {...item} onPress={() => handleProductPress(item.id)} />
+    <Product {...item} onPress={() => handleProductPress(item._id)} />
   );
+  const keyExtractor = () => Math.random().toString();
 
+  console.log('this is my keys', keyExtractor());
   return (
     <FlatList
       style={styles.productList}
       contentContainerStyle={styles.productListContainer}
       data={products}
       renderItem={renderProduct}
-      keyExtractor={(item) => item.id.toString()}
+      keyExtractor={keyExtractor}
     />
   );
 };

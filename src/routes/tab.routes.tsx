@@ -1,12 +1,8 @@
 import { createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 import {Feather} from "@expo/vector-icons"
-import Feed from '../screens/ProductList'
-import Contact from '../screens/Perfil'
 import ProductList from '../screens/ProductList'
 import ProductDetails from '../screens/ProductDetails'
-import StackRoutes from './stack.routes'
 import { createStackNavigator } from '@react-navigation/stack'
-import { Animated } from "react-native";
 import Cart from '../screens/Cart'
 import Chat from '../screens/Chat/Chat'
 import Fav from '../screens/Fav'
